@@ -1,0 +1,58 @@
+:root {
+    --gray-50: #eeeeee;
+    --gray-100: #b4b4b4;
+    --gray-200: #f2f3f5;
+    --gray-300: #c4c4cc;
+    --grey-400: #c9caca;
+    --gray-900: #121214;
+
+    --button-blue-100: #2e266d;
+    --button-blue-200: #00b0dc;
+    --white-100: #fff;
+
+    /* novas cores */
+    --cor-Night: #0b090a;
+    --cor-Eerieblack: #161a1d;
+    --cor-Blood: #660708;
+    --cor-Cornell: #a4161a;
+    --cor-Cornell-100: #ba181b;
+    --cor-Imperial: #e5383b;
+    --cor-Silver: #b1a7a6;
+    --cor-Timberwolf: #d3d3d3;
+    --cor-WhiteSmoke: #f5f3f4;
+    --cor-White: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: var(--gray-50);
+    color: var(--gray-900);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active,
+input:-webkit-autofill:focus {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input {
+    transition: none;
+}
+
+body,
+input,
+textarea,
+button,
+span,
+a {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.05rem;
+}

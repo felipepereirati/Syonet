@@ -1,0 +1,36 @@
+/* Overall container */
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main card styling */
+.card {
+    width: 20rem;
+    height: 38rem;
+    background: #fff;
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+}
+/* Logo styling */
+.logo {
+    align-self: center;
+    color: rgb(216, 18, 24);
+    padding-bottom: 3rem;
+}
+.fontSize {
+    font-size: 2rem;
+}
+
+/* Content within the card */
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    align-self: center;
+}

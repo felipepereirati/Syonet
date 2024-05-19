@@ -1,0 +1,6 @@
+.defaultTextErrorStyle {
+    font-weight: 800;
+    color: #e5383b;
+    margin-left: 10px;
+    letter-spacing: 0.08rem;
+}

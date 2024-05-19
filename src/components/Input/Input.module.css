@@ -1,0 +1,25 @@
+.defaultLabel {
+    font-family: 'Aileron-Regular', Helvetica, Arial, Verdana, Tahoma,
+        sans-serif;
+    padding-left: 5px;
+    font-size: 12px;
+    user-select: none;
+}
+
+.defaultBorderInputStyle {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-family: 'Aileron-Regular', Helvetica, Arial, Verdana, Tahoma,
+        sans-serif;
+    background-color: #d3d3d3;
+}
+
+.defaultInputStyle {
+    font-family: 'Aileron-Regular', Helvetica, Arial, Verdana, Tahoma,
+        sans-serif;
+    background: #d3d3d3;
+    border-style: none;
+    outline: none;
+}
