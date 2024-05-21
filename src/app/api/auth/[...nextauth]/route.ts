@@ -1,10 +1,10 @@
 import NextAuth, { NextAuthOptions, Session } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import {
-    UsuarioClass,
-    UsuariosService
-} from '../../../../../services/usuarios.service';
+
+
+import { UsuarioClass, UsuariosService } from '../../../../services/usuarios.service';
+
 
 export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
@@ -19,8 +19,8 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                nomeUsuario: {
-                    label: 'nomeUsuario',
+                emailUsuario: {
+                    label: 'emailUsuario',
                     type: 'text'
                 },
                 senhaUsuario: { label: 'senhaUsuario', type: 'password' }
@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
 
                     const user: UsuarioClass = {
                         id: '1',
-                        user: credentials.nomeUsuario,
+                        user: credentials.emailUsuario,
                         pass: credentials.senhaUsuario
                     };
                     const usuariosService = new UsuariosService();

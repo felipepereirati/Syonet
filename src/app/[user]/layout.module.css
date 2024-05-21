@@ -1,0 +1,22 @@
+.container {
+    min-height: 100vh;
+    min-width: 248px;
+    display: flex;
+    overflow: hidden;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 10px;
+    margin: 10px 10px 10px 10px;
+    border: 1px solid var(--cor-Silver);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 600px) {
+    .content {
+        margin: 10px 10px 10px 10px;
+        padding: 5px;
+    }
+}

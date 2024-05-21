@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React from 'react';
 
 import styles from './layout.module.css';
@@ -15,7 +14,9 @@ export default function RootLayout({
                     <div className={styles.content}>
                         <div className={styles.logo}>
                             <span>
-                                <strong className={styles.fontSize}>Syonet CRM</strong>
+                                <strong className={styles.fontSize}>
+                                    Syonet CRM
+                                </strong>
                             </span>
                         </div>
                         {children}

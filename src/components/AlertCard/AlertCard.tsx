@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { Button } from '../Button/Button';
-import './AlertCard.module.css';
+import styles from './AlertCard.module.css';
 
 interface AlertCardBoxProps {
     text?: string;
@@ -23,10 +23,10 @@ export const AlertCard = ({
     if (!text) return null;
 
     return (
-        <div className="container">
-            <div className="card">
-                <div className="text">{text}</div>
-                <div className="button">
+        <div className={styles.container}>
+            <div className={styles.card}>
+                <div className={styles.text}>{text}</div>
+                <div className={styles.button}>
                     {labelRecuse && (
                         <Button
                             label={labelRecuse}

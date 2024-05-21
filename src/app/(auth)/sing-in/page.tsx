@@ -1,29 +1,26 @@
 'use client';
 
 import { Button } from '@/components/Button/Button';
-import { CheckBox } from '@/components/CheckBox/CheckBox';
 import { Input } from '@/components/Input/Input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as zod from 'zod';
 
 import styles from './page.module.css';
 
 const AccountDataSchema = zod.object({
-    nomeUsuario: zod.string().min(1, 'Digite seu Usuário'),
-    senhaUsuario: zod.string().min(1, 'Digite sua senha'),
-    chkLembrarConta: zod.boolean()
+    emailUsuario: zod.string().min(1, 'Digite seu Usuário'),
+    senhaUsuario: zod.string().min(1, 'Digite sua senha')
 });
 
 type AccountData = zod.infer<typeof AccountDataSchema>;
 
 export default function SingIn() {
     const { push } = useRouter();
-    const [lembrar, setLembrar] = useState(false);
     const {
         register,
         handleSubmit,
@@ -32,69 +29,44 @@ export default function SingIn() {
         resolver: zodResolver(AccountDataSchema)
     });
 
-    const handleLembrar = () => {
-        setLembrar(!lembrar);
-    };
-
     const handleSingInAsync = async (data: AccountData) => {
         try {
-            const si = await signIn('credentials', {
-                nomeUsuario: data.nomeUsuario,
+            const result = await signIn('credentials', {
+                emailUsuario: data.emailUsuario,
                 senhaUsuario: data.senhaUsuario,
                 redirect: false
             });
-            if (!si?.ok && si?.error === 'CredentialsSignin') {
+
+            if (!result?.ok && result?.error === 'CredentialsSignin') {
                 console.log('CredentialsSignin');
+                return;
             }
 
-            push(`/${data.nomeUsuario}`);
-        } catch (errore: any) {
-            console.log(errore);
+            push(`/${data.emailUsuario}`);
+        } catch (err: any) {
+            console.log(err);
         }
     };
 
     return (
         <>
-            <div className={styles.title}>
-                {/* <Text
-                    label={'Login'}
-                    size={'2rem'}
-                    weight={'900'}
-                /> */}
-            </div>
-            <div className={styles.subtitle}>
-                {/* <Text
-                    label={'Entrar para Continuar'}
-                    weight={'300'}
-                /> */}
-            </div>
-
             <form
                 className={styles.inputContainer}
                 onSubmit={handleSubmit(handleSingInAsync)}
             >
                 <Input
-                    label="Login"
+                    label="Email"
                     maxLength={25}
-                    {...register('nomeUsuario')}
-                    fieldError={errors.nomeUsuario}
+                    {...register('emailUsuario')}
+                    fieldError={errors.emailUsuario}
                 />
                 <Input
                     label="Senha"
-                    maxLength={25}
+                    maxLength={8}
                     password
                     {...register('senhaUsuario')}
                     fieldError={errors.senhaUsuario}
                 />
-                <div className={styles.subLogin}>
-                    <CheckBox
-                        isChecked={lembrar}
-                        onClick={handleLembrar}
-                        label={'Lembrar'}
-                        {...register('chkLembrarConta')}
-                        fieldError={errors.senhaUsuario}
-                    />
-                </div>
                 <div className={styles.buttonContainer}>
                     <Button
                         label="Entrar"
@@ -108,10 +80,6 @@ export default function SingIn() {
                     >
                         Não tem uma conta? Registre-se.
                     </Link>
-                    <Button
-                        label="Sair"
-                        onClick={() => signOut()}
-                    ></Button>
                 </div>
             </form>
         </>

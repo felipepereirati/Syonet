@@ -21,9 +21,33 @@ const CreateAccountDataSchema = zod
         emailUsuario: zod
             .string()
             .min(1, 'Digite seu Email')
-            .email('Email invalido'),
-        senhaUsuario: zod.string().min(1, 'Digite sua senha'),
-        senhaConfirmaUsuario: zod.string().min(1, 'Confirme sua senha')
+            .email('Email inválido'),
+        senhaUsuario: zod
+            .string()
+            .min(8, 'A senha deve ter no mínimo 8 caracteres')
+            .refine(
+                value =>
+                    /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])(?=.{8,})/.test(
+                        value
+                    ),
+                {
+                    message:
+                        'A senha deve conter no mínimo 8 caracteres, um número, uma letra maiúscula e um caractere especial'
+                }
+            ),
+        senhaConfirmaUsuario: zod
+            .string()
+            .min(8, 'A senha deve ter no mínimo 8 caracteres')
+            .refine(
+                value =>
+                    /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])(?=.{8,})/.test(
+                        value
+                    ),
+                {
+                    message:
+                        'A senha deve conter no mínimo 8 caracteres, um número, uma letra maiúscula e um caractere especial'
+                }
+            )
     })
     .refine(
         (data: { senhaUsuario: string; senhaConfirmaUsuario: string }) =>
@@ -93,13 +117,7 @@ export default function SingUp() {
 
     return (
         <>
-            <div className={styles.title}>
-                {/* <Text
-                    label={'Criar Conta'}
-                    size={'2rem'}
-                    weight={'900'}
-                /> */}
-            </div>
+            <div className={styles.title}>Criar Conta</div>
             <form
                 className={styles.inputContainer}
                 onSubmit={handleSubmit(handleCreateAccountAsync)}

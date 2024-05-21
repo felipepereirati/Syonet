@@ -3,52 +3,67 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { prisma } from '../../../lib/database/prisma';
 
-// In this file, we can define any type of request as follows:
-// export async function GET(Request) {}
-// export async function HEAD(Request) {}
-// export async function POST(Request) {}
-// export async function PUT(Request) {}
-// export async function DELETE(Request) {}
-//  A simple GET Example
-
-export async function GET(Request: NextApiRequest) {
-    return new Response('This is a new API route');
-}
-
-export async function PUT(request: Request, response: NextApiResponse) {
-    const { emailUsuario, senha } = await request.json();
-
-    const emailExists = await prisma.user.findUnique({
-        where: {
-            email: emailUsuario
-        },
-        select: { email: true }
-    });
-
-    if (emailExists) {
-        return RetornarError('emailUsuario', 'O email já está cadastrado');
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                email: true
+            }
+        });
+        return res.status(200).json(users);
+    } catch (error) {
+        return res.status(500).json({ error: 'Internal server error' });
     }
-
-    const hashedPassword = await bcrypt.hash(senha, 10);
-
-    const userId = await prisma.user.create({
-        data: {
-            email: emailUsuario,
-            password: hashedPassword
-        },
-        select: { id: true }
-    });
-
-    return new Response(JSON.stringify({ usuarioId: userId }));
 }
 
-const RetornarError = (campo: string, message: string) =>
-    new Response(
-        JSON.stringify({
-            campo: campo,
-            message: message
-        }),
-        {
-            status: 400
+interface PutRequestBody {
+    emailUsuario: string;
+    senha: string;
+}
+
+export async function PUT(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        const { emailUsuario, senha }: PutRequestBody = req.body;
+
+        if (!emailUsuario || !senha) {
+            return res.status(400).json({
+                campo: 'input',
+                message: 'E-mail e senha são obrigatórios.'
+            });
         }
-    );
+
+        const emailExists = await prisma.user.findUnique({
+            where: { email: emailUsuario },
+            select: { email: true }
+        });
+
+        if (emailExists) {
+            return res.status(400).json({
+                campo: 'emailUsuario',
+                message: 'Este e-mail já está registrado.'
+            });
+        }
+
+        if (senha.length < 8) {
+            return res.status(400).json({
+                campo: 'senha',
+                message: 'A senha deve ter pelo menos 8 caracteres.'
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(senha, 10);
+
+        const user = await prisma.user.create({
+            data: {
+                email: emailUsuario,
+                password: hashedPassword
+            },
+            select: { id: true }
+        });
+
+        return res.status(201).json({ usuarioId: user.id });
+    } catch (error) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
